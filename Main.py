@@ -8,6 +8,7 @@ import subprocess
 from   discord.ext import commands
 from   discord import errors
 from   Cogs import ReadableTime
+from dotenv import load_dotenv
 
 # Get our cli args
 def getopts(argv):
@@ -137,19 +138,12 @@ from Cogs import Telephone
 from Cogs import XpStack
 from Cogs import Encode
 
+# Let's load our environment configuration, and set some settings!
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
-# Let's load our prefix file
-prefix = '$'
-if os.path.exists('prefix.txt'):
-	with open('prefix.txt') as f:
-		prefix = f.read()
-	if not prefix:
-		prefix = '$'
-# Set up debugging
-debug = False
-if os.path.exists('debug.txt'):
-	debug = True
-
+prefix = os.environ['PREFIX']
+debug = (os.environ['DEBUG'] == 'TRUE')
 
 async def get_prefix(bot, message):
 	# Check commands against some things and do stuff or whatever...
@@ -174,12 +168,10 @@ async def get_prefix(bot, message):
 # This should be the main soul of the bot - everything should load from here
 bot = commands.Bot(command_prefix=get_prefix, pm_help=None, description='A bot that does stuff.... probably')
 # Initialize some things
-jsonFile = "Settings.json"
-deckFile = "deck.json"
-corpSiteAuth = "corpSiteAuth.txt"
-# Open our token
-with open('token.txt', 'r') as f:
-	token = f.read().strip()
+jsonFile = os.environ['SETTINGS_FILE']
+deckFile = os.environ['DECK_FILE']
+corpSiteAuth = os.environ['SITE_AUTH_FILE']
+token = os.environ['AUTH_TOKEN']
 
 # Create our cog classes
 cogList = []
@@ -196,7 +188,9 @@ cogList.append(mute)
 example = Example.Example(bot, settings)
 music = Example.Music(bot, settings)
 cogList.append(example)
-cogList.append(music) # Uncomment this when voice is available.
+
+if os.environ['ENABLE_MUSIC'] == 'TRUE':
+	cogList.append(music)
 
 # Xp
 xp = Xp.Xp(bot, settings)

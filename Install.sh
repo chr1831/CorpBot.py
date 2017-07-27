@@ -123,7 +123,10 @@ function main () {
     # echo
     # update "python-levenshtein"
     # echo
-    
+
+    echo Updating python-dotenv
+    update "python-dotenv"
+
     echo Done.
     sleep 5
 }
