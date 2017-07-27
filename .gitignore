@@ -1,6 +1,10 @@
 # Token file
 token*.txt
 
+# Environment files
+.env
+.env.*
+
 # Brain file
 *.brn
 
