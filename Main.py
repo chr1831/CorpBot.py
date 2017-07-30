@@ -174,6 +174,14 @@ corpSiteAuth = os.environ['SITE_AUTH_FILE']
 token = os.environ['AUTH_TOKEN']
 
 # Create our cog classes
+cogs = [
+	{
+		'name': 'Settings',
+		'class': 'Settings',
+		'arguments': [bot, prefix, jsonFile]
+	},
+
+]
 cogList = []
 
 # Settings
